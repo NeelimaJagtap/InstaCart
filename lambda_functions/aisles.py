@@ -7,7 +7,7 @@ def lambda_handler(event, context):
     try:            
         s3=boto3.client('s3')            
         dyndb = boto3.client('dynamodb', region_name=region)
-        confile= s3.get_object('s3://instacartdata225/Instacart/departments/', Key='departments.csv')
+        confile= s3.get_object('s3://instacartdata225/Instacart/aisles/', Key='aisles.csv')
         recList = confile['Body'].read().split('\n')
         firstrecord=True
         csv_reader = csv.reader(recList, delimiter=',', quotechar='"')
@@ -25,8 +25,8 @@ def lambda_handler(event, context):
             response = dyndb.put_item(
                 TableName='emplist',
                 Item={
-                'department_id' : {'N':str(department_id)},
-                'department': {'S':str(dpartment)}
+                'aisle_id' : {'N':str(aisle_id)},
+                'aisle': {'S':str(aisle)}
                 }
             )
         print('Put succeeded:')
